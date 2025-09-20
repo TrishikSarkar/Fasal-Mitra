@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FASAL MITRA - Login</title>
+  <link rel="icon" href="./images/bgFASAL 2.png" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <style>
+    body {
+      font-family: 'Inter', 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #166e00, #132517);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(3px);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 768px;
+      min-height: 480px;
+    }
+
+    .container button {
+      background: transparent;
+      color: #ffffff;
+      font-size: 0.9rem;
+      padding: 10px 30px;
+      border: 1px solid white;
+      border-radius: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .container button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .container form {
+      background: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 20px;
+      height: 100%;
+    }
+
+    .container input {
+      background-color: #eee;
+      border: none;
+      margin: 8px 0;
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 8px;
+      width: 100%;
+      outline: none;
+    }
+
+    .form-container {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      transition: all 0.6s ease-in-out;
+      width: 100%;
+    }
+
+    .sign-in {
+      left: 0;
+      width: 50%;
+      z-index: 2;
+      opacity: 1;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .container.active .sign-in {
+      transform: translateX(100%);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .sign-up {
+      left: 0;
+      width: 50%;
+      opacity: 0;
+      z-index: 1;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .container.active .sign-up {
+      transform: translateX(100%);
+      opacity: 1;
+      z-index: 2;
+      animation: move 0.6s;
+    }
+
+    @keyframes move {
+
+      0%,
+      49.99% {
+        opacity: 0;
+        z-index: 1;
+      }
+
+      50%,
+      100% {
+        opacity: 1;
+        z-index: 5;
+      }
+    }
+
+    .social-icons {
+      margin: 20px 0;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .social-icons a {
+      border: 2px solid white;
+      border-radius: 8px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 5px;
+      width: 60px;
+      height: 40px;
+      color: white;
+      background-color: transparent;
+      font-size: 1.3rem;
+      text-decoration: none;
+    }
+
+    .toggle-container {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      transition: all 0.6s ease-in-out;
+      border-radius: 150px 0 0 100px;
+      z-index: 1000;
+    }
+
+    .container.active .toggle-container {
+      transform: translateX(-100%);
+      border-radius: 0 150px 100px 0;
+    }
+
+    .toggle {
+      height: 100%;
+      background: linear-gradient(to right, #635437, #b3992e);
+      color: #fff;
+      position: relative;
+      left: -100%;
+      height: 100%;
+      width: 200%;
+      transform: translateX(0);
+      transition: all 0.6s ease-in-out;
+    }
+
+    .container.active .toggle {
+      transform: translateX(50%);
+    }
+
+    .toggle-panel {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 20px;
+      text-align: center;
+      top: 0;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .toggle-left {
+      transform: translateX(-200%);
+    }
+
+    .container.active .toggle-left {
+      transform: translateX(0);
+    }
+
+    .toggle-right {
+      right: 0;
+      transform: translateX(0);
+    }
+
+    .container.active .toggle-right {
+      transform: translateX(200%);
+    }
+
+    /* Logo */
+    .logo {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2000;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.474);
+      backdrop-filter: blur(8px);
+      padding: 8px 18px 8px 8px;
+    }
+
+    .logo img {
+      height: 50px;
+      width: 50px;
+    }
+
+    .logo span {
+      font-size: clamp(20px, 2vw, 28px);
+      font-weight: 700;
+      background: linear-gradient(90deg, #968054, #c3ba88);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* PHONE POPUP STYLES */
+    .phone-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      padding: 1rem;
+    }
+
+    .phone-modal {
+      width: 100%;
+      max-width: 430px;
+      background: linear-gradient(180deg, rgba(10,10,10,0.96), rgba(18,18,18,0.98));
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .phone-modal h2 {
+      font-size: 1.125rem;
+      margin-bottom: 6px;
+    }
+
+    .phone-modal p {
+      color: #c9b97a;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .phone-modal .close-x {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .phone-modal input[type="tel"],
+    .phone-modal input[type="text"],
+    .phone-modal input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: #f3f3f3;
+      color: #111;
+    }
+
+    .phone-modal .small {
+      font-size: 0.85rem;
+      color: #ddd;
+      margin-bottom: 8px;
+    }
+
+    .phone-modal .btn {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(90deg, #968054, #c3ba88);
+      color: #111;
+      margin-top: 8px;
+    }
+
+    .phone-modal .muted {
+      color: #999;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .social-icons a {
+        width: 48px;
+        height: 36px;
+        font-size: 1.1rem;
+      }
+      .phone-modal {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-900">
+  <div class="relative min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center"
+    style="background-image: url(images/background.jpg);">
+
+    <!-- Logo -->
+    <div class="logo">
+      <img src="images/bgFASAL 2.png" alt="Fasal Mitra Logo" />
+      <span>FASAL MITRA</span>
+    </div>
+
+    <div
+      class="relative w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 bg-black/20 backdrop-blur-lg">
+
+      <!-- Left -->
+      <div
+        class="flex flex-col items-center justify-center p-6 sm:p-10 md:p-12 text-center border-b md:border-b-0 md:border-r border-white/10">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+          Let's Get Started
+        </h1>
+        <p style="color:#968054; font-size: clamp(20px, 2.5vw, 32px); font-weight: 700; letter-spacing: 2px;">
+          FASAL MITRA
+        </p>
+      </div>
+
+      <!-- Right (Forms) -->
+      <div class="container" id="container">
+        <!-- Sign Up -->
+        <div class="form-container sign-up">
+          <form autocomplete="off">
+            <h1 style="color:#fff;font-size:22px">Create Account</h1>
+            <div class="social-icons">
+              <a href="#" id="googleSignUpBtn" title="Continue with Google"><i class="fa-brands fa-google-plus-g"></i></a>
+
+              <!-- PHONE ICON (signup) -->
+              <a href="#" id="phoneSignUpBtn" title="Use phone" aria-label="Phone sign up">
+                <i class="fa-solid fa-phone"></i>
+              </a>
+            </div>
+            <span style="color:#fff">or use your email</span>
+            <input type="text" name="name" placeholder="Enter your name" required />
+            <input type="email" placeholder="Email" autocomplete="off" />
+            <input type="password" placeholder="Password" autocomplete="off" />
+            <button style="color: #968054">Sign Up</button>
+          </form>
+        </div>
+
+        <!-- Sign In -->
+        <div class="form-container sign-in">
+          <form autocomplete="off">
+            <h1 style="color:#fff; font-size: 25px; ">Sign In</h1>
+            <div class="social-icons">
+              <a href="#" id="googleSignInBtn" title="Continue with Google"><i class="fa-brands fa-google-plus-g"></i></a>
+
+              <!-- PHONE ICON (signin) -->
+              <a href="#" id="phoneSignInBtn" title="Use phone" aria-label="Phone sign in">
+                <i class="fa-solid fa-phone"></i>
+              </a>
+            </div>
+            <span style="color:#fff">or use email</span>
+            <input type="email" name="email" placeholder="Email" autocomplete="off" required />
+            <input type="password" name="Password" placeholder="password" autocomplete="off" required />
+            <button style="color: #968054">Sign In</button>
+          </form>
+        </div>
+
+        <!-- Toggle -->
+        <div class="toggle-container">
+          <div class="toggle">
+            <div class="toggle-panel toggle-left">
+              <h1>Welcome Back!</h1>
+              <p>Enter your details</p>
+              <button style="color:#ffffff" id="login">Sign In</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+              <h1>Hello, Friend!</h1>
+              <p>Register with your details</p>
+              <button style="color:#ffffff" id="register">Sign Up</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHONE AUTH POPUP -->
+  <div class="phone-overlay" id="phoneOverlay" aria-hidden="true">
+    <div class="phone-modal" role="dialog" aria-modal="true" aria-labelledby="phoneTitle">
+      <button class="close-x" id="closePhone" title="Close">
+        <i class="fa-solid fa-xmark" style="color:#fff;"></i>
+      </button>
+
+      <div id="phoneStepContainer">
+        <!-- Step 1: Get name & phone, send OTP -->
+        <div id="phoneStep1">
+          <h2 id="phoneTitle">Verify via Phone</h2>
+          <p>Enter your name and phone number. We'll send an OTP to verify.</p>
+
+          <div class="small">Full name</div>
+          <input type="text" id="popupFullName" placeholder="Enter your full name (optional on Sign In)" />
+
+          <div class="small">Phone number (with country code)</div>
+          <input type="tel" id="popupPhone" placeholder="+91 98765 43210" />
+
+          <!-- recaptcha container (needed for Firebase) -->
+          <div id="recaptcha-container" style="margin: 8px 0;"></div>
+
+          <button class="btn" id="sendOtpBtn">Send OTP</button>
+          <div class="muted">You will receive an SMS with a verification code.</div>
+        </div>
+
+        <!-- Step 2: Enter OTP -->
+        <div id="phoneStep2" style="display:none;">
+          <h2>Enter OTP</h2>
+          <p style="color:#c9b97a">A code was sent to the phone number provided</p>
+
+          <div class="small">OTP</div>
+          <input type="number" id="otpInput" placeholder="Enter OTP" />
+
+          <button class="btn" id="verifyOtpBtn">Verify & Continue</button>
+          <button class="btn" id="resendOtpBtn" style="margin-top:8px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.08)">Resend OTP</button>
+
+          <div class="muted" id="otpHint"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toggle form interaction -->
+  <script>
+    const container = document.getElementById('container');
+    const registerBtn = document.getElementById('register');
+    const loginBtn = document.getElementById('login');
+
+    registerBtn.addEventListener('click', () => {
+      container.classList.add("active");
+    });
+
+    loginBtn.addEventListener('click', () => {
+      container.classList.remove("active");
+    });
+  </script>
+
+
+
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  updateProfile,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
+
+// -------- Firebase Config --------
+const firebaseConfig = {
+  apiKey: "AIzaSyDLl-YXvI2l8WiNeatezRKV3ExDt39-ELw",
+  authDomain: "fasal-mitra.firebaseapp.com",
+  projectId: "fasal-mitra",
+  storageBucket: "fasal-mitra.firebasestorage.app",
+  messagingSenderId: "994019584570",
+  appId: "1:994019584570:web:422b7bea9f41ab3500a303",
+  measurementId: "G-C44BHVCM8R"
+};
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth();
+const provider = new GoogleAuthProvider();
+
+// -------- Google Auth --------
+function handleGoogleAuth() {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const isNewUser = result._tokenResponse?.isNewUser;
+      alert(isNewUser ? "Account created with Google!" : "Signed in with Google!");
+      window.location.href = "input.html";
+    })
+    .catch((error) => alert("Google Auth Error: " + error.message));
+}
+document.getElementById("googleSignInBtn").addEventListener("click", (e) => { e.preventDefault(); handleGoogleAuth(); });
+document.getElementById("googleSignUpBtn").addEventListener("click", (e) => { e.preventDefault(); handleGoogleAuth(); });
+
+// -------- Email Auth --------
+const signUpForm = document.querySelector(".sign-up form");
+signUpForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = signUpForm.querySelector('input[name="name"]').value;
+  const email = signUpForm.querySelector('input[type="email"]').value;
+  const password = signUpForm.querySelector('input[type="password"]').value;
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((cred) => updateProfile(cred.user, { displayName: name }))
+    .then(() => {
+      alert("Account created successfully!");
+      window.location.href = "input.html";
+    })
+    .catch((err) => alert("Sign up error: " + err.message));
+});
+
+const signInForm = document.querySelector(".sign-in form");
+signInForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = signInForm.querySelector('input[type="email"]').value;
+  const password = signInForm.querySelector('input[type="password"]').value;
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      alert("Signed in successfully!");
+      signInForm.reset();
+      window.location.href = "input.html";
+    })
+    .catch((err) => alert("Sign in error: " + err.message));
+});
+
+// -------- Phone Auth --------
+const phoneSignInBtn = document.getElementById("phoneSignInBtn");
+const phoneSignUpBtn = document.getElementById("phoneSignUpBtn");
+const phoneOverlay = document.getElementById("phoneOverlay");
+const closePhone = document.getElementById("closePhone");
+const sendOtpBtn = document.getElementById("sendOtpBtn");
+const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+const resendOtpBtn = document.getElementById("resendOtpBtn");
+const phoneStep1 = document.getElementById("phoneStep1");
+const phoneStep2 = document.getElementById("phoneStep2");
+const popupFullName = document.getElementById("popupFullName");
+const popupPhone = document.getElementById("popupPhone");
+const otpInput = document.getElementById("otpInput");
+const otpHint = document.getElementById("otpHint");
+
+let phoneFlowMode = "signin";
+let confirmationResultGlobal = null;
+let recaptchaVerifier = null;
+
+function renderRecaptcha() {
+  const rc = document.getElementById("recaptcha-container");
+  rc.innerHTML = ""; // clear old widget
+  recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+    size: "invisible"
+  });
+}
+
+function openPhonePopup(mode) {
+  phoneFlowMode = mode;
+  phoneOverlay.style.display = "flex";
+  phoneStep1.style.display = "block";
+  phoneStep2.style.display = "none";
+  otpInput.value = "";
+  popupPhone.value = "";
+  popupFullName.value = "";
+  otpHint.textContent = "";
+  renderRecaptcha();
+}
+
+phoneSignInBtn.addEventListener("click", (e) => { e.preventDefault(); openPhonePopup("signin"); });
+phoneSignUpBtn.addEventListener("click", (e) => { e.preventDefault(); openPhonePopup("signup"); });
+closePhone.addEventListener("click", () => { phoneOverlay.style.display = "none"; document.getElementById("recaptcha-container").innerHTML = ""; });
+
+// send OTP
+sendOtpBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const phone = popupPhone.value.trim();
+  if (!phone.startsWith("+")) return alert("Phone must include +country code");
+  sendOtpBtn.disabled = true; sendOtpBtn.textContent = "Sending...";
+  try {
+    confirmationResultGlobal = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
+    phoneStep1.style.display = "none";
+    phoneStep2.style.display = "block";
+    otpHint.textContent = `OTP sent to ${phone}`;
+  } catch (err) {
+    alert("Error sending OTP: " + err.message);
+    renderRecaptcha();
+  } finally {
+    sendOtpBtn.disabled = false; sendOtpBtn.textContent = "Send OTP";
+  }
+});
+
+// verify OTP
+verifyOtpBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const code = otpInput.value.trim();
+  if (!code) return alert("Enter OTP");
+  verifyOtpBtn.disabled = true; verifyOtpBtn.textContent = "Verifying...";
+  try {
+    const cred = await confirmationResultGlobal.confirm(code);
+    if (phoneFlowMode === "signup" && popupFullName.value) {
+      await updateProfile(cred.user, { displayName: popupFullName.value });
+    }
+    alert("Phone verified successfully!");
+    window.location.href = "input.html";
+  } catch (err) {
+    alert("OTP verification failed: " + err.message);
+  } finally {
+    verifyOtpBtn.disabled = false; verifyOtpBtn.textContent = "Verify & Continue";
+  }
+});
+
+// resend OTP
+resendOtpBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  phoneStep1.style.display = "block";
+  phoneStep2.style.display = "none";
+  renderRecaptcha();
+});
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fasal Mitra - AI</title>
+  <link rel="icon" href="./images/bgFASAL 2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html,body {
+  margin:0; padding:0; box-sizing:border-box;
+  font-family: Arial,sans-serif; color:#333;
+  scroll-behavior:smooth;
+}
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ================= FONT ================= */
+@font-face {
+  font-family: 'ExpletusSans[wght]';
+  src: url('fonts/ExpletusSans[wght].ttf') format('truetype');
+}
+
+/* ================= HEADER ================= */
+header {
+  position:relative;
+  height:70vh; width:100vw;
+  min-height:400px;
+  display:flex; align-items:center;
+  overflow:hidden;
+}
+header video {
+  position:absolute; top:0; left:0;
+  width:100%; height:100%; object-fit:cover;
+  z-index:0;
+  filter:brightness(0.55) blur(1px);
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 62px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.1rem;
+  box-shadow: 0 2px 10px rgba(20,80,40,0.07);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+/* Ensure navbar allows dropdowns to overflow and display above other elements */
+.navbar {
+  overflow: visible !important; 
+  z-index: 1000 !important;
+  position: fixed;
+}
+
+/* Lang dropdown wrapper positioning */
+.lang-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Lang dropdown menu styling */
+#langDropdownMenu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%; 
+  background: #fff;
+  min-width: 185px;
+  max-height: 320px; 
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+  z-index: 2500; 
+}
+
+#langDropdownMenu .dropdown-item {
+  width: 100%;
+  text-align: left;
+  padding: 9px 14px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+#langDropdownMenu .dropdown-item:hover,
+#langDropdownMenu .dropdown-item:focus {
+  background: #326c4f;
+  color: #fff;
+  outline: none;
+}
+
+/* Mobile support: dropdown menu full width if screen is narrow */
+@media (max-width: 500px) {
+  #langDropdownMenu {
+    left: 0 !important;
+    right: auto !important;
+    min-width: 120px;
+    width: 90vw;
+  }
+}
+.navbar::-webkit-scrollbar { display: none; }
+
+.navbar-left {
+  flex-shrink: 0;
+  display:flex;
+  align-items:center;
+  gap:0.8rem;
+  font-weight:bold;
+  font-size:1.6rem;
+  user-select:none;
+  cursor:default;
+  min-width: max-content;
+}
+.navbar-left img { width:38px; height:38px; object-fit:contain; }
+
+.navbar-right {
+  display:flex;
+  align-items:center;
+  gap:0.7rem;
+  flex-shrink: 0;
+  min-width: max-content;
+}
+
+.navbar-btn {
+  height: 38px;
+  color:#d3c15c; background:transparent;
+  border:2px solid  white; border-radius:16px;
+  padding:0.35rem 1rem;
+  font-weight:bold; font-size:0.95rem;
+  cursor:pointer; transition:background 0.18s;
+  white-space: nowrap;
+  
+}
+.navbar-btn:hover { background:rgba(10, 49, 15, 0.7); }
+
+.navbar-profile {
+  background:rgba(11, 61, 23, 0.23);
+  border-radius:50%; border:none;
+  padding:0.3rem;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  margin-right: 20px;
+}
+.navbar-profile img { width:30px; height:30px; border-radius:50%; }
+
+/* ================= LOGO + SLOGANS ================= */
+.fasal-mitra-wrap {
+  position:relative; z-index:2;
+  display:flex; flex-direction:column; align-items:flex-start;
+  margin-left:4%; animation:slideInLeft 2s ease-out both;
+}
+@keyframes slideInLeft {
+  0%{ opacity:0; transform:translateX(-200px);}
+  100%{ opacity:1; transform:translateX(0);}
+}
+.logo-slide {
+  display:flex; align-items:center; gap:1rem;
+  font-size:4rem;
+}
+.logo-slide img { width:100px; height:100px; }
+#fasalMitraTitle {
+  font-size:4rem; font-weight:bold; letter-spacing:1px;
+  color:#fff; margin:0;
+}
+.slogans {
+  margin-top:1.5rem;
+  width:100%;
+  height:7.2rem;
+  overflow:hidden; position:relative;
+}
+.slogan-set {
+  position:absolute; top:0; left:0; width:100%;
+  opacity:0; transform:translateY(15px);
+  transition:opacity 1s ease, transform 1s ease;
+}
+.slogan-set.active { opacity:1; transform:translateY(0); }
+.slogan-set p {
+  margin:0.01rem 0; font-size:1.7rem; font-weight:bold; color:#d3c15c;
+  text-shadow:0 2px 6px rgba(10,50,40,0.24);
+}
+
+/* ================= SECTIONS ================= */
+section {
+  padding: 3rem 2rem;
+  border-bottom: 2px solid #e6e6e6;
+  background: #fff;
+}
+h2 { color:#326c4f; margin-bottom:1rem; }
+
+/* Gradient section backgrounds */
+#form { background: linear-gradient(90deg,#c3ba88, #134d13); }
+#about { background: linear-gradient(90deg, #326c4f, #335035); }
+#contact { background: linear-gradient(90deg, #326c4f, #335035); }
+
+/* ================= FORM ================= */
+#farmForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem 3rem;
+  max-width: 620px;
+}
+#farmForm label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  flex: 1 1 220px;
+}
+select,
+input[type="number"] {
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  border: 2px solid #326c4f;
+  border-radius: 8px;
+  outline-offset: 2px;
+  outline-color: transparent;
+  transition: outline-color 0.3s ease;
+}
+select:focus,
+input[type="number"]:focus { outline-color: #326c4f; }
+
+.controls {
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.btn-primary {
+  background: transparent;
+  color: rgb(255, 255, 255);
+  border: 2px solid white;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.6rem 2.4rem;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+.btn-primary:hover { background: #08351e; color: white; }
+
+/* Farm illustration (desktop only) */
+#form img {
+  max-width:600px;
+  min-height:500px;
+  border-radius:14px;
+  box-shadow:0 2px 12px rgba(10,80,40,0.09);
+}
+@media (max-width: 1024px) {
+  #form img { display: none; }
+}
+
+/* ================= NPK SLIDERS ================= */
+.npk-section {
+  width: 100%;
+  background: #f8fcf8;
+  border: 1px solid #e0eee0;
+  border-radius: 10px;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem 1rem 1rem 1rem;
+  box-sizing: border-box;
+}
+.npk-title {
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+  color: #134d13;
+  font-size: 1rem;
+}
+.npk-sliders-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  align-items: flex-end;
+}
+.npk-slider-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 210px;
+  min-width: 210px;
+  margin-bottom: 0.9rem;
+}
+.npk-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.96rem;
+  margin-bottom: 0.25rem;
+}
+.npk-value-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.98rem;
+  color: #283;
+  margin-top: 0.25rem;
+  margin-bottom: 0.1rem;
+}
+.npk-slider {
+  width: 100%;
+  accent-color: #196019;
+  height: 4px;
+}
+
+/* ================= PROFILE POPUP ================= */
+.profile-popup {
+  position:fixed; top:0; right:-350px;
+  width:270px;
+  height:100%;
+  background:#f4fff4;
+  padding:1.5rem 0.8rem;
+  z-index:999;
+  transition:right 1.0s cubic-bezier(0.77, 0, 0.175, 1);
+  border-left:6px solid #c3ba88;
+  display:flex; flex-direction:column; align-items:center;
+  margin-top: 62px;
+  border-radius: 15px;
+}
+.profile-popup.active { right:0; }
+.profile-popup .close-btn {
+  position:absolute; top:1rem; right:1rem;
+  background:transparent; border:none;
+  font-size:1.5rem; cursor:pointer;
+  color:#333;
+}
+.profile-title {
+  font-size:1.3rem; font-weight:bold; color:#326c4f;
+  margin-bottom:1rem; text-align:center;
+}
+.profile-card {
+  background:#fff;
+  border:2px solid #968054;
+  border-radius:12px;
+  padding:1.2rem;
+  text-align:center;
+  box-shadow:0 3px 10px rgba(0,0,0,0.15);
+  width:100%;
+  box-sizing:border-box;
+}
+.profile-card img {
+  width:70px; height:70px; border-radius:50%;
+  border:3px solid #c3ba88; margin-bottom:0.8rem;
+}
+.profile-card p {
+  margin:0.4rem 0; font-size:1rem; color:#333;
+}
+.profile-card p strong { color:#326c4f; }
+.profile-card button {
+  margin-top:1.2rem;
+  padding:0.6rem 1rem; background:#c3ba88; color:#fff;
+  border:0.5px solid black; border-radius:8px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.15);
+  font-weight:bold; cursor:pointer;
+  width:100%;
+}
+.profile-card button:hover { background:#326c4f; color:white; }
+
+/* ================= FOOTER ================= */
+footer { background:#326c4f; color:#c3ba88; text-align:center; padding:1rem; }
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 750px) {
+  .navbar {
+    padding:0 0.8rem;
+    height:54px;
+  }
+  .navbar-btn {
+    font-size:0.85rem;
+    padding:0.28rem .6rem;
+  }
+  .navbar-left {
+    font-size:1.2rem;
+    gap:0.5rem;
+  }
+  .navbar-left img { width:32px; height:32px; }
+  .navbar-profile img { width:28px; height:28px; }
+
+  #fasalMitraTitle { font-size:2.4rem; }
+  .logo-slide img { width:65px; height:65px; }
+}
+
+
+
+@media (max-width: 480px) {
+  .navbar-btn {
+    height: 30px;
+    font-size:0.75rem;
+    padding:0.25rem .5rem;
+    position: relative;
+    right: -5px;
+    padding: 5px;
+    border: 1.5px solid white;
+
+  }
+  #fasalMitraTitle {
+        font-size: 2.2rem;
+      }
+      .slogan-set p {
+        white-space: nowrap;   
+        font-size: 1.2rem;     
+        line-height: 1.6rem;   
+      }
+  .logo-slide img { width:50px; height:50px; }
+  #fasalMitraTitle { font-size:2rem; }
+}
+    .navbar-profile{
+        position: relative;
+        right: 2px;
+    }
+    
+      
+
+  </style>
+</head>
+<body>
+  <header>
+   
+      
+  
+    <!-- ================= NAVBAR ================= -->
+<div class="navbar" role="banner" aria-label="Main navigation bar">
+  <div class="navbar-left" aria-label="Fasal Mitra logo and name">
+    <img style="height:45px;width:45px"src="images/bgFASAL 2.png" alt="Fasal Mitra logo" />
+    <span style="background: linear-gradient(90deg,#2faf2f,#ceb075);background-clip:text;-webkit-background-clip:text;color: transparent;-webkit-text-fill-color: transparent;display: inline-block;">Fasal Mitra</span>
+  </div>
+  <div class="navbar-right">
+    <button class="navbar-btn" onclick="scrollToSection('about')">About</button>
+    <button class="navbar-btn" onclick="scrollToSection('form')">Input</button>
+    <button class="navbar-btn" onclick="scrollToSection('contact')">Contact</button>
+    <!-- LANG BUTTON & DROPDOWN -->
+    <div class="lang-dropdown" style="position: relative;display:inline-block;">
+      <button class="navbar-btn" id="langDropdownBtn">Lang ▼</button>
+      <div id="langDropdownMenu" style="display: none; position: absolute; right:0; background: #fff; min-width: 185px; border-radius: 8px; box-shadow: 0 8px 18px rgba(0,0,0,0.12);overflow-y:auto;z-index:1500;">
+        <div style="padding:6px 0;">
+          <button class="dropdown-item" data-lang="en" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">English</button>
+          <button class="dropdown-item" data-lang="hi" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">हिन्दी</button>
+          <button class="dropdown-item" data-lang="bn" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">বাংলা</button>
+          <button class="dropdown-item" data-lang="or" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">ଓଡ଼ିଆ</button>
+          <button class="dropdown-item" data-lang="mr" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">मराठी</button>
+          <button class="dropdown-item" data-lang="kn" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">ಕನ್ನಡ</button>
+          <button class="dropdown-item" data-lang="ta" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">தமிழ்</button>
+          <button class="dropdown-item" data-lang="te" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">తెలుగు</button>
+          <button class="dropdown-item" data-lang="ml" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">മലയാളം</button>
+          <button class="dropdown-item" data-lang="pa" style="width:100%;text-align:left;padding:9px 14px;border:none;background:none;cursor:pointer;">ਪੰਜਾਬੀ</button>
+        </div>
+      </div>
+    </div>
+    <button class="navbar-profile" id="profileOpenBtn" title="Profile">
+      <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="profile"/>
+    </button>
+  </div>
+</div>
+
+<!-- --- END NAVBAR, CONTINUE REST OF YOUR PAGE UNTOUCHED --- -->
+    <video autoplay muted loop playsinline>
+      <source src="images/bgVID.mp4" type="video/mp4">
+    </video>
+    <!-- Navigation (hidden) -->
+    <div class="nav" style="display:none;">
+      <button class="nav-btn" onclick="scrollToSection('about')">About</button>
+      <button class="nav-btn" onclick="scrollToSection('form')">Input</button>
+      <button class="nav-btn" onclick="scrollToSection('form')">contact</button>
+      <button class="profile-btn" id="profileOpenBtnNav" title="Profile">
+        <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="profile"/>
+      </button>
+      
+    </div>
+    
+    
+    <!-- Logo + Name + Slogans -->
+    <div class="fasal-mitra-wrap">
+      <div class="logo-slide">
+        <img src="images/bgFASAL 2.png" alt="logo">
+        <span id="fasalMitraTitle" style="font-family: 'ExpletusSans[wght]';">Fasal Mitra</span>
+      </div>
+      <div class="slogans">
+        <div class="slogan-set active">
+          <p>🌱 Fasal Aapki</p>
+          <p>🌾 Suraksha Hamara</p>
+          <p>💧 Bharosa Aapka</p>
+        </div>
+        <div class="slogan-set">
+          <p>🚜 फसल आपकी</p>
+          <p>🌍 सुरक्षा हमारा</p>
+          <p>📈 भरोसा आपका</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 40px;">
+      <h2 style="font-size:40px;color:#fff; text-align:center;">
+        About <span style="background: linear-gradient(90deg,#968054,#c3ba88);background-clip:text;-webkit-background-clip:text;color: transparent;-webkit-text-fill-color: transparent;display: inline-block;">Fasal-Mitra</span>
+      </h2>
+    </div></h2>
+
+    <script>
+        function scrollToSection(id) {
+            const target = document.getElementById(id);
+            if (!target) return;
+            const headerOffset = 0; // adjust if you have a fixed header
+            const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - headerOffset;
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+    </script>
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 18px;">
+      <p style="font-size: 1.25rem; color: #fff; text-align: center; margin: 0;">
+        AI powered advisor to help farmers choose the right crop.We're revolutionizing agriculture through intelligent crop prediction technology, helping farmers make data-driven decisions that maximize profitability and sustainability.
+      </p>
+    </div>
+  </section>
+
+  <section id="form">
+    <h2 style="background: linear-gradient(90deg,#335035,#326c4f);background-clip:text;-webkit-background-clip:text;color: transparent;-webkit-text-fill-color: transparent;display: inline-block; font-size: 30px;">Enter Farm Details</h2>
+    <div style="text-align:center; margin-bottom:1.5rem;"></div>
+      <img src="images/crop-ilustration.webp" alt="Farm illustration" style="position: absolute;left:700px;top:978px;max-width:600px; min-height: 500px;border-color:black; border-radius:14px; box-shadow:0 2px 12px rgba(10,80,40,0.09);" />
+    </div> 
+    <p class="hint" id="introText" style="color: #fff;">
+      Enter simple farm details — soil, rainfall, pH, season & resources. Click
+      <strong>Recommend</strong> to see the best crops for your situation.
+      
+    </p>
+    <form id="farmForm" autocomplete="off" onsubmit="return false;">
+  
+  <div class="npk-section">
+    <div class="npk-title">Soil Nutrients (NPK)</div>
+    <div class="npk-sliders-row">
+      <!-- Nitrogen -->
+      <div class="npk-slider-group">
+        <div class="npk-label-row">
+          <label for="nitrogen">Nitrogen (N) - ppm</label>
+          <span id="nitrogenValue">50 ppm</span>
+        </div>
+        <input type="range" id="nitrogen"
+            class="npk-slider"
+            min="0" max="140" step="1" value="50"
+            oninput="document.getElementById('nitrogenValue').innerText = this.value + ' ppm';" />
+        <div class="npk-value-row"><span>0</span><span>140</span></div>
+      </div>
+      <!-- Phosphorus -->
+      <div class="npk-slider-group">
+        <div class="npk-label-row">
+          <label for="phosphorus">Phosphorus (P) - ppm</label>
+          <span id="phosphorusValue">30 ppm</span>
+        </div>
+        <input type="range" id="phosphorus"
+            class="npk-slider"
+            min="0" max="145" step="1" value="30"
+            oninput="document.getElementById('phosphorusValue').innerText = this.value + ' ppm';" />
+        <div class="npk-value-row"><span>0</span><span>145</span></div>
+      </div>
+      <!-- Potassium -->
+      <div class="npk-slider-group">
+        <div class="npk-label-row">
+          <label for="potassium">Potassium (K) - ppm</label>
+          <span id="potassiumValue">40 ppm</span>
+        </div>
+        <input type="range" id="potassium"
+            class="npk-slider"
+            min="0" max="205" step="1" value="40"
+            oninput="document.getElementById('potassiumValue').innerText = this.value + ' ppm';" />
+        <div class="npk-value-row"><span>0</span><span>205</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Temperature -->
+  <div class="form-group">
+    <label label="labeltemparature" for="temperature">Temperature (°C) [-10 to 50]</label>
+    <input id="temperature" type="number" min="-10" max="50" step="0.1" placeholder="e.g. 25" required />
+  </div>
+
+  <!-- Humidity -->
+  <div class="form-group">
+    <label label="labelhumidity" for="humidity">Humidity (%) [0-100]</label>
+    <input id="humidity" type="number" min="0" max="100" step="0.1" placeholder="e.g. 70" required />
+  </div>
+
+  <div class="form-group">
+    <label id="labelSoil" for="soil">Soil Type</label>
+    <select id="soil" required>
+      <option value="">-- Select soil --</option>
+      <option value="loamy">Loamy</option>
+      <option value="clay">Clay</option>
+      <option value="sandy">Sandy</option>
+      <option value="silt">Silt</option>
+      <option value="saline">Saline</option>
+      <option value="peaty">peaty</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label id="labelSeason" for="season">Season</label>
+    <select id="season" required>
+      <option value="">-- Select season --</option>
+      <option value="kharif">Kharif (monsoon)</option>
+      <option value="rabi">Rabi (winter)</option>
+      <option value="all">Any / Multiple</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label id="labelRain" for="rainfall">Average Annual Rainfall (mm)</label>
+    <input id="rainfall" type="number" min="0" placeholder="e.g. 800" />
+  </div>
+
+  <div class="form-group">
+    <label id="labelPh" for="ph">Soil pH (4.0 - 9.0)</label>
+    <input id="ph" type="number" step="0.1" min="3.5" max="9.5" placeholder="e.g. 6.5" />
+  </div>
+
+  <div class="controls">
+    <button type="submit" id="submitBtn" class="btn-primary">Submit</button>
+  </div>
+</form>
+
+  </section>
+
+  <section id="contact">
+    <h2 style="font-size:40px;color:#fff; text-align:center;">
+        Get in <span style="background: linear-gradient(90deg,#968054,#c3ba88);background-clip:text;-webkit-background-clip:text;color: transparent;-webkit-text-fill-color: transparent;display: inline-block;">Touch</span>
+      </h2>
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 18px;"><p  style="font-size: 1.25rem; color: #c3ba88; text-align: center; margin: 0;">Email: <a style="text-decoration: none;color: #fff;" href="mailto:support@fasalmitra.in">support@fasalmitra.in</a></p></div>
+  </section>
+
+<footer style="background: linear-gradient(90deg,#968054,#c3ba88);">
+    <p style="font-size: 20px;background: linear-gradient(90deg,#335035,#326c4f);background-clip:text;-webkit-background-clip:text;color: transparent;-webkit-text-fill-color: transparent;display: inline-block; ">© 2025 Fasal Mitra. All Rights Reserved.</p>
+</footer>
+<style>
+    /* Adjust profile popup/card to fit nicely */
+    .profile-popup {
+      width:270px !important;
+      padding:1.5rem 0.8rem !important;
+    }
+    .profile-card {
+      padding:1.2rem !important;
+      width:100% !important;
+      box-sizing:border-box;
+    }
+    .profile-card img {
+      width:70px !important;
+      height:70px !important;
+    }
+</style>
+
+  <!-- Profile Popup (Card Style) -->
+  <div class="profile-popup" id="profilePopup">
+    <button class="close-btn" id="closePopup">&times;</button>
+    <div class="profile-title">User Profile</div>
+    <div class="profile-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User">
+      <p><strong>Name:</strong> Demo User</p>
+      <p><strong>Email:</strong> user@example.com</p>
+      <button onclick="logoutUser()">Log Out</button>
+    </div>
+  </div>
+
+  
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+  // Firebase config (same as login.js)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDLl-YXvI2l8WiNeatezRKV3ExDt39-ELw",
+    authDomain: "fasal-mitra.firebaseapp.com",
+    projectId: "fasal-mitra",
+    storageBucket: "fasal-mitra.firebasestorage.app",
+    messagingSenderId: "994019584570",
+    appId: "1:994019584570:web:422b7bea9f41ab3500a303",
+    measurementId: "G-C44BHVCM8R"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      
+      let displayName = user.displayName;
+
+      
+      if (!displayName) {
+        displayName = localStorage.getItem("userName") || "User";
+      }
+
+      
+      document.querySelector("#profilePopup p:nth-of-type(1)").innerHTML = "<strong>Name:</strong> " + displayName;
+      document.querySelector("#profilePopup p:nth-of-type(2)").innerHTML = "<strong>Email:</strong> " + user.email;
+
+      
+      if (user.photoURL) {
+        document.querySelector("#profilePopup img").src = user.photoURL;
+      }
+    } else {
+      
+      window.location.href = "index.html";
+    }
+  });
+
+  
+  window.logoutUser = function () {
+    signOut(auth).then(() => {
+      alert("Logged out successfully!");
+      window.location.href = "index.html";
+    });
+  };
+
+  
+  function scrollToSection(id) {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  }
+
+  
+  const profileBtn = document.getElementById("profileOpenBtn");
+  const profilePopup = document.getElementById("profilePopup");
+  const closePopup = document.getElementById("closePopup");
+
+  profileBtn.addEventListener("click", () => {
+    profilePopup.classList.add("active");
+  });
+  closePopup.addEventListener("click", () => {
+    profilePopup.classList.remove("active");
+  });
+
+  // For nav profile (if needed)
+  const profileBtnNav = document.getElementById("profileOpenBtnNav");
+  if (profileBtnNav) {
+    profileBtnNav.addEventListener("click", () => {
+      profilePopup.classList.add("active");
+    });
+  }
+
+  // Rotate slogans
+  const sets = document.querySelectorAll(".slogan-set");
+  let current = 0;
+  setInterval(() => {
+    sets[current].classList.remove("active");
+    current = (current + 1) % sets.length;
+    sets[current].classList.add("active");
+  }, 5000);
+</script>
+<button id="scrollTopBtn" title="Go to top">⬆</button>
+ 
+<style>
+  /* Scroll-to-top button */
+  #scrollTopBtn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1100;
+    
+    background: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: none; /* hidden by default */
+    transition: all 0.3s ease;
+  }
+  #scrollTopBtn:hover {
+    background: linear-gradient(135deg,#134d13,#c3ba88);
+    transform: translateY(-4px);
+  }
+</style>
+<script>
+  // Scroll to top button
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+  window.addEventListener("scroll", () => {
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      scrollTopBtn.style.display = "block";
+    } else {
+      scrollTopBtn.style.display = "none";
+    }
+  });
+
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>
+
+<script>
+// Adapted language dictionary: All textual elements for 10 languages.
+// Keys: en, hi, bn, or, mr, kn, ta, te, ml, pa
+
+const langText = {
+  en: {
+    aboutDesc: "AI powered advisor to help farmers choose the right crop. We're revolutionizing agriculture through intelligent crop prediction technology, helping farmers make data-driven decisions that maximize profitability and sustainability.",
+    formTitle: "Enter Farm Details",
+    formHint: "Enter simple farm details — soil, rainfall, pH, season & resources. Click Recommend to see the best crops for your situation.",
+    labelSoil: "Soil Type",
+    labelSeason: "Season",
+    labelRain: "Average Annual Rainfall (mm)",
+    labelPh: "Soil pH (4.0 - 9.0)",
+    btnSubmit: "Submit",
+    contactDesc: "Email: support@fasalmitra.in"
+  },
+  hi: {
+    aboutDesc: "AI आधारित सलाहकार जो किसानों को सही फसल चुनने में मदद करता है। हम स्मार्ट फसल पूर्वानुमान तकनीक से खेती को और उन्नत व लाभदायक बना रहे हैं, जिससे किसान डेटा-आधारित निर्णय ले सकें जो लाभप्रदता और स्थिरता को अधिकतम करते हैं।",
+    formTitle: "खेत का विवरण दर्ज करें",
+    formHint: "सरल खेत विवरण दर्ज करें — मिट्टी, वर्षा, pH, मौसम और संसाधन। अपनी स्थिति के लिए सर्वोत्तम फसलें देखने के लिए सुझाव पर क्लिक करें।",
+    labelSoil: "मिट्टी का प्रकार",
+    labelSeason: "मौसम",
+    labelRain: "औसत वार्षिक वर्षा (मिमी)",
+    labelPh: "मिट्टी का pH (4.0 - 9.0)",
+    btnSubmit: "जमा करें",
+    contactDesc: "ईमेल: support@fasalmitra.in"
+  },
+  bn: {
+    aboutDesc: "কৃষকদের সঠিক ফসল বেছে নিতে AI দ্বারা চালিত পরামর্শদাতা। আমরা বুদ্ধিমান ফসল পূর্বাভাস প্রযুক্তির মাধ্যমে কৃষিকে বিপ্লবী করে তুলছি, কৃষকদের ডেটা-ভিত্তিক সিদ্ধান্ত নিতে সাহায্য করছি যাতে লাভজনকতা ও স্থায়িত্ব সর্বাধিক হয়।",
+    formTitle: "খামারের বিবরণ লিখুন",
+    formHint: "সহজ খামারের বিবরণ লিখুন — মাটি, বৃষ্টি, pH, ঋতু ও সম্পদ। সুপারিশে ক্লিক করুন সেরা ফসলগুলো দেখতে।",
+    labelSoil: "মাটির ধরন",
+    labelSeason: "ঋতু",
+    labelRain: "গড় বার্ষিক বৃষ্টিপাত (মিমি)",
+    labelPh: "মাটির pH (4.0 - 9.0)",
+    btnSubmit: "জমা দিন",
+    contactDesc: "ইমেল: support@fasalmitra.in"
+  },
+  or: {
+    aboutDesc: "କୃଷକମାନେ ସଠିକ ଫସଲ ବାଛିବା ପାଇଁ AI ଚାଳିତ ପ୍ରମାର୍ଶଦାତା। ଆମେ ଦୌତିକ ଫସଲ ଅନୁମାନ ପ୍ରଯୁକ୍ତି ଦ୍ୱାରା କୃଷିକୁ ବିପ୍ଳବ ଆଣୁଛୁ, ଯାହା କୃଷକମାନେ ତଥ୍ୟ-ଆଧାରିତ ନିଷ୍ପତ୍ତି ନେବାକୁ ସହଯୋଗ କରି, ଲାଭ ଓ ସ୍ଥାୟୀତ୍ୱକୁ ବର୍ଦ୍ଧିତ କରେ।",
+    formTitle: "ଚାଷବାଡିର ବିବରଣୀ ଦିଅନ୍ତୁ",
+    formHint: "ସହଜ ଚାଷବାଡି ବିବରଣୀ ଦିଅନ୍ତୁ — ମାଟି, ବର୍ଷା, pH, ଋତୁ ଓ ଉପକରଣ। ସୁପାରିଶ ଉପରେ ଚାପି ଶ୍ରେଷ୍ଠ ଫସଲ ଦେଖନ୍ତୁ।",
+    labelSoil: "ମାଟିର ପ୍ରକାର",
+    labelSeason: "ଋତୁ",
+    labelRain: "ମାଧ୍ୟମିକ ବାର୍ଷିକ ବର୍ଷା (ମି.ମି.)",
+    labelPh: "ମାଟିର pH (4.0 - 9.0)",
+    btnSubmit: "ଦାଖଲ କରନ୍ତୁ",
+    contactDesc: "ଇମେଲ୍: support@fasalmitra.in"
+  },
+  mr: {
+    aboutDesc: "शेतकऱ्यांना योग्य पीक निवडण्यासाठी AI सहायक. आम्ही स्मार्ट पीक भाकीत तंत्रज्ञानाद्वारे शेतीत क्रांती आणत आहोत, शेतकऱ्यांना डेटा-आधारित निर्णय घेण्यास मदत करत आहोत जे नफा आणि टिकाव वाढवतात.",
+    formTitle: "शेतीचे तपशील प्रविष्ट करा",
+    formHint: "सोपी शेती माहिती प्रविष्ट करा — माती, पाऊस, pH, हंगाम आणि संसाधने. सर्वोत्कृष्ट पिके पाहण्यासाठी शिफारसीवर क्लिक करा.",
+    labelSoil: "माती प्रकार",
+    labelSeason: "हंगाम",
+    labelRain: "सरासरी वार्षिक पर्जन्यमान (मि.मी.)",
+    labelPh: "माती pH (4.0 - 9.0)",
+    btnSubmit: "सबमिट करा",
+    contactDesc: "ईमेल: support@fasalmitra.in"
+  },
+  kn: {
+    aboutDesc: "ರೈತರಿಗೆ ಸೂಕ್ತ ಬೆಳೆಯನ್ನು ಆಯ್ಕೆಮಾಡಲು AI ಚಾಲಿತ ಸಲಹೆಗಾರ. ನಾವು ಬುದ್ಧಿವಂತ ಬೆಳೆಯ ಮುನ್ಸೂಚನೆ ತಂತ್ರಜ್ಞಾನದಿಂದ ಕೃಷಿಯನ್ನ ಉನ್ನತಗೊಳಿಸುತ್ತಿದ್ದೇವೆ, ರೈತರಿಗೆ ಡೇಟಾ ಆಧಾರಿತ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಲು ಸಹಾಯ ಮಾಡುತ್ತೇವೆ.",
+    formTitle: "ರಾಮೈನ ವಿವರವನ್ನು ನಮೂದಿಸಿ",
+    formHint: "ಸರಳ ರಾಮೈನ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ — ಮಣ್ಣು, ಮಳೆ, pH, ಋತು ಮತ್ತು ಸಂಪನ್ಮೂಲಗಳು. ಶ್ರೇಷ್ಠ ಬೆಳೆಗಳನ್ನು ನೋಡಲು ಶಿಫಾರಸ್ಸು ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.",
+    labelSoil: "ಮಣ್ಣಿನ ವಿಧ",
+    labelSeason: "ಋತು",
+    labelRain: "ಸರಾಸರಿ ವಾರ್ಷಿಕ ಮಳೆಯ ಪ್ರಮಾಣ (ಮಿ.ಮೀ)",
+    labelPh: "ಮಣ್ಣಿನ pH (4.0 - 9.0)",
+    btnSubmit: "ಸಲ್ಲಿಸಿ",
+    contactDesc: "ಇಮೇಲ್: support@fasalmitra.in"
+  },
+  ta: {
+    aboutDesc: "விவசாயிகள் சரியான பயிரை தேர்வு செய்ய AI சகாயம். நாங்கள் புத்திசாலி பயிர் கணிப்பு தொழில்நுட்பத்தின் மூலம் விவசாயத்தை மாற்றிவருகிறோம், விவசாயிகள் தரவுகளால் ஆதரிக்கப்படும் முடிவுகளை எடுக்க உதவுகிறோம்.",
+    formTitle: "பண்ணையின் விவரங்களை உள்ளிடவும்",
+    formHint: "எளிதான விவரங்களை உள்ளிடவும் — மண், மழை, pH, பருவம் மற்றும் வளங்கள். சிறந்த பயிர்களை பார்க்க பரிந்துரைக்கும் பொத்தானை அழுத்தவும்.",
+    labelSoil: "மண் வகை",
+    labelSeason: "பருவம்",
+    labelRain: "சராசரி வருடாந்தர மழை (மிமீ)",
+    labelPh: "மண்ணின் pH (4.0 - 9.0)",
+    btnSubmit: "சமர்ப்பிக்கவும்",
+    contactDesc: "மின்னஞ்சல்: support@fasalmitra.in"
+  },
+  te: {
+    aboutDesc: "రైతులకు సరైన పంటను ఎంచుకోనికి AI ఆధారిత సలహాదారు. మేము తెలివైన పంట అంచనా టెక్నాలజీతో వ్యవసాయాన్ని విప్లవాత్మకంగా మార్చుతున్నాం, రైతులకు డేటా ఆధారిత నిర్ణయాలు తీసుకోవడానికి సహాయపడుతున్నాం.",
+    formTitle: "పంట వివరాలు నమోదు చేయండి",
+    formHint: "సులభమైన పంట వివరాలు నమోదు చేయండి — మట్టి, వర్షపాతం, pH, ఋతువు మరియు వనరులు. ఉత్తమమైన పంటలను చూడడానికి సిఫార్సు క్లిక్ చేయండి.",
+    labelSoil: "మట్టి రకం",
+    labelSeason: "ఋతువు",
+    labelRain: "సగటు వార్షిక వర్షపాతం (మి.మీ.)",
+    labelPh: "మట్టి pH (4.0 - 9.0)",
+    btnSubmit: "సమర్పించండి",
+    contactDesc: "ఇమెయిల్: support@fasalmitra.in"
+  },
+  ml: {
+    aboutDesc: "കർഷകർക്ക് ശരിയായ വിള തിരഞ്ഞെടുക്കാൻ AI സഹായചെയ്യുന്നു. നാം ഉചിതമായ വിള പ്രവചനം സാങ്കേതികതയിലൂടെ കർഷകരെ ഡാറ്റ അടിസ്ഥാനമാക്കിയുള്ള തീരുമാനങ്ങൾ എടുക്കാൻ സഹായിക്കുന്നു, അതാൽ ലാഭവും സ്ഥിരതയും കൂടുതലാക്കുന്നു.",
+    formTitle: "കൃഷി വിവരങ്ങൾ നൽകുക",
+    formHint: "സാന്റു കൃഷി വിവരങ്ങൾ നൽകുക — മണ്ണ്, മഴ, pH, സീസൺ, വിഭവങ്ങൾ. മികച്ച വിളകൾ കാണാൻ ശുപാർശ ക്ലിക്ക് ചെയ്യുക.",
+    labelSoil: "മണ്ണിന്റെ തരം",
+    labelSeason: "സീസൺ",
+    labelRain: "ശരാശരി വാർഷിക മഴ (മില്ലിമീറ്റർ)",
+    labelPh: "മണ്ണിന്റെ pH (4.0 - 9.0)",
+    btnSubmit: "സമർപ്പിക്കുക",
+    contactDesc: "ഇമെയിൽ: support@fasalmitra.in"
+  },
+  pa: {
+    aboutDesc: "ਕਿਸਾਨਾਂ ਨੂੰ ਠੀਕ ਫਸਲ ਚੁਣਨ ਵਿੱਚ ਮਦਦ ਲਈ AI ਚਲਾਇਆ ਸਲਾਹਕਾਰ। ਅਸੀਂ ਸੁਝਵਾਂ ਵਾਲੀ ਫਸਲ ਪੂਰਵ ਅੰਦਾਜ਼ਾ ਤਕਨਾਲੋਜੀ ਰਾਹੀਂ ਖੇਤੀਬਾੜੀ ਨੂੰ ਬਿਹਤਰ ਅਤੇ ਫਾਇਦੇਮੰਦ ਬਣਾ ਰਹੇ ਹਾਂ, ਜਿਸ ਨਾਲ ਕਿਸਾਨ ਡਾਟਾ-ਅਧਾਰਿਤ ਫੈਸਲੇ ਕਰ ਸਕਣ ਜੋ ਲਾਭਪ੍ਰਦਤਾ ਅਤੇ ਟਿਕਾਉਪਨ ਵਧਾਉਂਦੇ ਹਨ।",
+    formTitle: "ਖੇਤ ਦੀ ਜਾਣਕਾਰੀ ਦਿਓ",
+    formHint: "ਸਧਾਰਨ ਖੇਤ ਦੀ ਜਾਣਕਾਰੀ ਦਿਓ — ਮਿੱਟੀ, ਵਰ੍ਹਾ, pH, موسم ਅਤੇ ਸਰੋਤੇ। ਸਭ ਤੋਂ ਵਧੀਆ ਫਸਲਾਂ ਦੇਖਣ ਲਈ ਸੁਝਾਅ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।",
+    labelSoil: "ਮਿੱਟੀ ਦੀ ਕਿਸਮ",
+    labelSeason: "ਮੌਸਮ",
+    labelRain: "ਔਸਤ ਸਾਲਾਨਾ ਵਰਖਾ (ਮੀ.ਮੀ.)",
+    labelPh: "ਮਿੱਟੀ pH (4.0 - 9.0)",
+    btnSubmit: "ਜਮ੍ਹਾਂ ਕਰੋ",
+    contactDesc: "ਈ-ਮੇਲ: support@fasalmitra.in"
+  }
+};
+
+// Show/hide dropdown logic
+document.addEventListener('DOMContentLoaded', function() {
+  const langBtn = document.getElementById("langDropdownBtn");
+  const dropdown = document.getElementById("langDropdownMenu");
+
+  langBtn.onclick = function() {
+    dropdown.style.display = (dropdown.style.display === "block" ? "none" : "block");
+  };
+
+  // Hide dropdown on outside click
+  document.addEventListener("click", function(event) {
+    if (!langBtn.contains(event.target) && !dropdown.contains(event.target)) {
+      dropdown.style.display = "none";
+    }
+  });
+
+  // Change site language on click of item
+  dropdown.querySelectorAll('.dropdown-item').forEach(function(item) {
+    item.onclick = function(e) {
+      const lang = e.target.getAttribute("data-lang");
+      setLang(lang);
+      dropdown.style.display = "none";
+    };
+  });
+
+  // Default language
+  setLang('en');
+});
+
+function setLang(lang) {
+  const t = langText[lang] || langText.en;
+
+  // Update textual content in About section
+  const aboutP = document.querySelector("#about p");
+  if (aboutP) aboutP.innerText = t.aboutDesc;
+
+  // Update Form section
+  const formH2 = document.querySelector("#form h2");
+  if (formH2) formH2.innerText = t.formTitle;
+
+  const introTxt = document.getElementById("introText");
+  if (introTxt) introTxt.innerText = t.formHint;
+
+  // Form labels
+  const labelSoil = document.getElementById("labelSoil");
+  if (labelSoil) labelSoil.innerText = t.labelSoil;
+
+  const labelSeason = document.getElementById("labelSeason");
+  if (labelSeason) labelSeason.innerText = t.labelSeason;
+
+  const labelRain = document.getElementById("labelRain");
+  if (labelRain) labelRain.innerText = t.labelRain;
+
+  const labelPh = document.getElementById("labelPh");
+  if (labelPh) labelPh.innerText = t.labelPh;
+
+  // Submit button
+  const btnSubmit = document.getElementById("submitBtn");
+  if (btnSubmit) btnSubmit.innerText = t.btnSubmit;
+
+  // Contact info
+  const contactP = document.querySelector("#contact p");
+  if (contactP) contactP.innerText = t.contactDesc;
+
+  // Indicate selection: color feedback for current language
+  document.querySelectorAll('#langDropdownMenu .dropdown-item').forEach(function (el) {
+    el.style.background = (el.getAttribute('data-lang') === lang) ? "#08351e" : "none";
+    el.style.color = (el.getAttribute('data-lang') === lang) ? "#fff" : "#333";
+  });
+}
+
+</script>
+
+<script>
+document.getElementById("submitBtn").onclick = async function() {
+  // Collect all input values including newly added temperature and humidity.
+  const nitrogen = document.getElementById("nitrogen").value;
+  const phosphorus = document.getElementById("phosphorus").value;
+  const potassium = document.getElementById("potassium").value;
+  const temperature = document.getElementById("temperature").value;
+  const humidity = document.getElementById("humidity").value;
+  const rainfall = document.getElementById("rainfall").value;
+  const ph = document.getElementById("ph").value;
+
+  // Validate required inputs before sending (basic validation example)
+  if (!temperature || !humidity) {
+    alert("Please enter valid Temperature and Humidity values.");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://127.0.0.1:5000/recommend", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nitrogen, phosphorus, potassium, temperature, humidity, rainfall, ph })
+    });
+
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data = await response.json();
+
+    // Store and redirect here only
+    localStorage.setItem('fasalResultJSON', JSON.stringify(data));
+    window.location.href = "resultprac.html";
+  } catch(e) {
+    alert("Error fetching recommendations: " + e.message);
+  }
+};
+</script>
+
+
+
+
+
+</body>
+</html>
+
+

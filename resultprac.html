@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fasal Mitra Result</title>
+  <link rel="icon" href="./images/bgFASAL 2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f8f8f4;
+      margin: 0;
+      color: #343916;
+    }
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    .header {
+      background: linear-gradient(90deg, #083f23, #c6ba88);
+      display: flex;
+      align-items: center;
+      padding: 28px 0 16px 45px;
+      border-bottom: 1px solid #eee7db;
+    }
+    .logo-img {
+      height: 60px;
+      width: 60px;
+      margin-right: 16px;
+      object-fit: contain;
+    }
+    .logo-name {
+      font-weight: bold;
+      font-size: 2.5em;
+      color: transparent;
+      background: linear-gradient(90deg, #968054, #c6ba88);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+      font-family: 'Inter', Arial, sans-serif;
+      user-select:none;
+        }
+    main {
+      max-width: 1280px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+    .crop-card {
+      background: #fffdf7;
+      border: 1px solid #f2eada;
+      border-radius: 15px;
+      box-shadow: 0 2px 7px rgba(195, 183, 138, 0.13);
+      padding: 25px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 320px;
+      max-width: 100%;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .crop-title {
+      font-size: 1.5em;
+      font-weight: 600;
+      flex-grow: 1;
+      color: #2d5730;
+    }
+    .card-body {
+      margin-top: 6px;
+      font-size: 1em;
+      color: #343916;
+    }
+    .stats-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 1em;
+      margin-bottom: 15px;
+    }
+    .stat {
+      min-width: 148px;
+    }
+    .stat span {
+      font-weight: 700;
+      color: #1b3517;
+    }
+    .conf-bar {
+      height: 17px;
+      background: #ede1c1;
+      border-radius: 9px;
+      overflow: hidden;
+      position: relative;
+      margin: 8px 0 15px 0;
+    }
+    .conf-fill {
+      background: #2d5730;
+      height: 100%;
+      border-radius: 9px;
+      transition: width 0.4s;
+    }
+    .advantages, .considerations {
+      margin-top: 16px;
+      margin-bottom: 8px;
+      font-size: 0.95em;
+      line-height: 1.3em;
+    }
+    .advantages b {
+      color: #167a40;
+    }
+    .considerations b {
+      color: #b8861a;
+    }
+    .advantages ul, .considerations ul {
+      margin-top: 6px;
+      padding-left: 20px;
+    }
+    .pdf-btn {
+      background: transparent;
+      color: #083f23;
+      font-weight: 700;
+      border-radius: 8px;
+      border: 1.5px solid #083f23;
+      padding: 12px 40px;
+      cursor: pointer;
+      display: block;
+      margin: 32px auto 32px auto;
+      font-size: 1.1em;
+      user-select:none;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .pdf-btn:hover {
+      background: linear-gradient(90deg, #083f23, #2faf2f);
+      color: white;
+    }
+    footer {
+      text-align: center;
+      padding: 14px 0;
+      color: #8b7b47;
+      background: #f5ecd9;
+      border-top: 1px solid #eee7db;
+      font-size: 1em;
+      margin-top: 38px;
+      user-select:none;
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cards-container {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding: 0;
+      }
+      main {
+        margin: 20px auto;
+        padding: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header" role="banner" aria-label="Site Header">
+    <img src="images/bgFASAL 2.png" alt="Fasal Mitra Logo" class="logo-img" />
+    <span class="logo-name">Fasal Mitra</span>
+  </div>
+  <main>
+    <section class="cards-container" id="results" aria-live="polite" aria-atomic="true" aria-label="Crop Recommendations">
+      
+    </section>
+    <button id="downloadPdf" class="pdf-btn" aria-label="Download crop recommendations as PDF">
+      Download as PDF
+    </button>
+  </main>
+  <footer>
+    Need help implementing these recommendations? Contact our experts
+  </footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function buildCropCard(crop) {
+    const cropName = escapeHtml(crop.crop || "Unknown");
+    const confidence = crop.confidence != null ? crop.confidence : 0;
+    const cost = crop.cost != null ? crop.cost : "N/A";
+    const expectedYield = crop.yield || "N/A";
+    
+    
+    const advantagesArr = crop.advantages && crop.advantages.length 
+                          ? crop.advantages 
+                          : ["High market demand", "Good soil compatibility", "Proven yield in your region"];
+    const considerationsArr = crop.considerations && crop.considerations.length 
+                            ? crop.considerations 
+                            : ["Requires good irrigation", "Sensitive to weather changes"];
+    
+    return `
+    <article class="crop-card" role="region" aria-label="Recommendation for ${cropName}">
+      <header class="card-header">
+        <h2 class="crop-title">${cropName}</h2>
+      </header>
+      <section class="card-body">
+        <div class="stats-list">
+          <div class="stat">Expected Yield: <span>${escapeHtml(expectedYield)}</span></div>
+          <div class="stat">Estimated Cost: <span>₹${cost.toLocaleString()}</span></div>
+          <div class="stat">Confidence: <span>${confidence}%</span></div>
+        </div>
+        <div class="conf-bar" aria-label="Confidence bar">
+          <div class="conf-fill" style="width: ${confidence}%;"></div>
+        </div>
+        <div class="advantages" aria-label="Advantages">
+          <b>Advantages:</b>
+          <ul>
+            ${advantagesArr.map(a => `<li>${escapeHtml(a)}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="considerations" aria-label="Considerations">
+          <b>Considerations:</b>
+          <ul>
+            ${considerationsArr.map(c => `<li>${escapeHtml(c)}</li>`).join('')}
+          </ul>
+        </div>
+      </section>
+    </article>`;
+  }
+
+  function loadResults() {
+    const storedJSON = localStorage.getItem('fasalResultJSON');
+    const container = document.getElementById('results');
+    container.innerHTML = "";
+
+    if (!storedJSON) {
+      container.innerHTML = "<p>No crop recommendations found.</p>";
+      return;
+    }
+
+    let data;
+    try {
+      data = JSON.parse(storedJSON);
+    }
+    catch {
+      container.innerHTML = "<p>Error loading recommendations data.</p>";
+      return;
+    }
+
+    if (!data.recommendations || !data.recommendations.length) {
+      container.innerHTML = "<p>No crop recommendations available.</p>";
+      return;
+    }
+
+    container.innerHTML = data.recommendations.map(buildCropCard).join('');
+  }
+
+  function exportPdf() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    let y = 18;
+    doc.setFontSize(18);
+    doc.text("Fasal Mitra: Crop Recommendations", 14, y);
+    y += 12;
+
+    const storedJSON = localStorage.getItem('fasalResultJSON');
+    if (!storedJSON) {
+      doc.setFontSize(12);
+      doc.text("No crop recommendations available.", 14, y);
+      doc.save('Fasal_Mitra_Recommendations.pdf');
+      return;
+    }
+
+    let data;
+    try {
+      data = JSON.parse(storedJSON);
+    } catch {
+      doc.setFontSize(12);
+      doc.text("Error reading recommendations data.", 14, y);
+      doc.save('Fasal_Mitra_Recommendations.pdf');
+      return;
+    }
+
+    const crops = data.recommendations;
+    if (!crops.length) {
+      doc.setFontSize(12);
+      doc.text("No crop recommendations available.", 14, y);
+      doc.save('Fasal_Mitra_Recommendations.pdf');
+      return;
+    }
+
+    doc.setFontSize(12);
+    crops.forEach((crop, idx) => {
+      doc.setFont(undefined, "bold");
+      doc.text(crop.crop, 14, y);
+      doc.setFont(undefined, "normal");
+      y += 7;
+      doc.text(`Expected Yield: ${crop.yield || "N/A"}`, 16, y);
+      y += 7;
+      doc.text(`Estimated Cost: ₹${crop.cost}`, 16, y);
+      y += 7;
+      doc.text(`Confidence: ${crop.confidence}%`, 16, y);
+      y += 7;
+
+      const advantagesArr = crop.advantages && crop.advantages.length 
+                            ? crop.advantages 
+                            : ["High market demand", "Good soil compatibility", "Proven yield in your region"];
+      const considerationsArr = crop.considerations && crop.considerations.length 
+                              ? crop.considerations 
+                              : ["Requires good irrigation", "Sensitive to weather changes"];
+
+      doc.setFont(undefined, "bold");
+      doc.text("Advantages:", 16, y);
+      y += 6;
+      doc.setFont(undefined, "normal");
+      advantagesArr.forEach(a => {
+        doc.text(`• ${a}`, 20, y);
+        y += 6;
+      });
+
+      doc.setFont(undefined, "bold");
+      doc.text("Considerations:", 16, y);
+      y += 6;
+      doc.setFont(undefined, "normal");
+      considerationsArr.forEach(c => {
+        doc.text(`• ${c}`, 20, y);
+        y += 6;
+      });
+
+      y += 12;
+      if (y > 270 && idx < crops.length - 1) {
+        doc.addPage();
+        y = 18;
+      }
+    });
+
+    doc.save('Fasal_Mitra_Crop_Recommendations.pdf');
+  }
+
+  window.onload = () => {
+    loadResults();
+    document.getElementById('downloadPdf').addEventListener('click', exportPdf);
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
