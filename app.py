@@ -3,8 +3,11 @@ from flask_cors import CORS
 import joblib
 import pandas as pd
 
+
+
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/recommend": {"origins": "https://trishiksarkar.github.io"}})
+
 
 
 model = joblib.load("crop_rf_model.pkl")
